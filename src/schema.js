@@ -6,9 +6,32 @@ const typeDefs = gql`
     favoriteBoats: [BoatListing!]!
     latestLog: Log!
     allLogs: [Log!]!
+    me: User
   }
   type Mutation {
     refreshDatabase: String
+    signup(email: String!, password: String!, name: String!): AuthPayload!
+    login(email: String!, password: String!): AuthPayload!
+    refreshToken(token: String!): String!
+    addFavorite(listingId: Int!): User!
+    removeFavorite(listingId: Int!): User!
+  }
+
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
+  type User {
+    _id: ID!
+    email: String!
+    name: String!
+    favorites: [Int]
+  }
+
+  type Favorite {
+    user: User!
+    listing: BoatListing!
   }
 
   type Log {
@@ -34,7 +57,7 @@ const typeDefs = gql`
     doubleBerths: Int
     heads: Int
     locationCity: String!
-    locationCountry: String!
+    locationCountry: String
     createdDate: DateTime!
     modifiedDate: DateTime!
     link: String!
