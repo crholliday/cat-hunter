@@ -26,6 +26,12 @@ module.exports = {
       return await dataSources.listingAPI.getNewListings()
     },
     async signup(parent, args, { dataSources }, info) {
+      let user = await dataSources.userAPI.find({ email: args.email })
+
+      if (user) {
+        throw new Error('User already exits')
+      }
+
       const password = await bcrypt.hash(args.password, 10)
       const user = await dataSources.userAPI.addUser({
         data: { ...args, password }
