@@ -26,9 +26,9 @@ module.exports = {
       return await dataSources.listingAPI.getNewListings()
     },
     async signup(parent, args, { dataSources }, info) {
-      let user = await dataSources.userAPI.find({ email: args.email })
+      let userTst = await dataSources.userAPI.find({ email: args.email })
 
-      if (user) {
+      if (userTst) {
         throw new Error('User already exits')
       }
 
